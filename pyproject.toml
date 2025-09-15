@@ -24,6 +24,7 @@ dependencies = [
     "numpy==2.2.0",
     "packaging==24.2",
     "pandas==2.2.3",
+    "pyarrow>=12.0.0",
     "pefile==2023.2.7",
     "pillow==11.0.0",
     "platformdirs==4.3.6",
@@ -55,10 +56,12 @@ dev = [
     "black>=25.1.0",
     "pytest>=8.4.2",
     "ruff>=0.12.12",
+    "taskipy>=1.14.1",
 ]
 
 [tool.taskipy.tasks]
 test = "uv run pytest"
+test-tosoo3 = "uv run python test_tosoo3_loader.py"
 check = "uv run ruff check **/*.py && uv run black --check **/*.py"
 fix = "uv run ruff check --fix **/*.py"
 format = "uv run black **/*.py"

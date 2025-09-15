@@ -6,6 +6,7 @@ from .load_eeglab import load_eeglab
 from .load_r09 import load_r09
 from .load_edf import load_edf
 from .load_edf_volt import load_edf_volt
+from .load_tosoo3 import load_tosoo3
 from .number_of_epochs import number_of_epochs
 from cache.load_cache import load_cache
 from signal_processing.times_vector import times_vector
@@ -18,11 +19,14 @@ def load_wrapper(ui, datatype):
     if datatype == "eeglab":
         ui.eeg_data, srate, channel_names = load_eeglab(ui.filename)
     if datatype == "r09":
-        ui.eeg_data, srate, channel_names = load_r09(ui.filename)    
+        ui.eeg_data, srate, channel_names = load_r09(ui.filename)
     if datatype == "edf":
-        ui.eeg_data, srate, channel_names = load_edf(ui.filename)    
+        ui.eeg_data, srate, channel_names = load_edf(ui.filename)
     if datatype == "edfvolt":
-        ui.eeg_data, srate, channel_names = load_edf_volt(ui.filename)    
+        ui.eeg_data, srate, channel_names = load_edf_volt(ui.filename)
+    if datatype == "tosoo3":
+        # Use full_filename which includes the .tosoo3.parquet extension
+        ui.eeg_data, srate, channel_names = load_tosoo3(ui.full_filename)    
 
     try:
         numchans = ui.eeg_data.shape[0]
