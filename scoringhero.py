@@ -13,7 +13,7 @@
 from PySide6 import QtCore, QtWidgets, QtGui
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
-import scipy.io, os, sys, json, re, h5py, datetime
+import scipy.io, os, sys, json, re, h5py, datetime, argparse
 import numpy as np
 
 from ui.setup_ui import setup_ui
@@ -95,13 +95,26 @@ class Ui_MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Scoring Hero - EEG Sleep Scoring Application')
+    parser.add_argument('--file', '-f', type=str, help='Path to EEG file to load')
+    parser.add_argument('--type', '-t', type=str, default='eeglab', help='File type format (default: eeglab)')
+    args = parser.parse_args()
+
     app = QtWidgets.QApplication(sys.argv)
 
     ui = Ui_MainWindow()
     MainWindow = MyMainWindow(ui)
-    
+
     setup_ui(ui, MainWindow)
-    if ui.devmode == 1:
+
+    if args.file:
+        if not os.path.exists(args.file):
+            print(f"Error: File '{args.file}' not found.")
+            sys.exit(1)
+        ui.filename = args.file
+        MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(args.file)})")
+        load_wrapper(ui, args.type)
+    elif ui.devmode == 1:
         name_of_eegfile = os.path.join(ui.default_data_path, "example_data.mat")
         ui.filename, suffix = os.path.splitext(name_of_eegfile)
         MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(name_of_eegfile)})")
@@ -110,6 +123,6 @@ if __name__ == "__main__":
     appstyler(app)
     apply_app_theme(MainWindow, app, ui.app_path, "modern_theme.qss")
 
-    MainWindow.activateWindow()  # Add this line to make the window active
+    MainWindow.activateWindow()
     MainWindow.show()
     sys.exit(app.exec())
