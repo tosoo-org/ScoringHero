@@ -108,9 +108,6 @@ if __name__ == "__main__":
     setup_ui(ui, MainWindow)
 
     if args.file:
-        if not os.path.exists(args.file):
-            print(f"Error: File '{args.file}' not found.")
-            sys.exit(1)
         ui.filename = args.file
         MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(args.file)})")
         load_wrapper(ui, args.type)
