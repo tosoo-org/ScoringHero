@@ -53,3 +53,22 @@ def load_wrapper(ui, datatype):
     ui.HypnogramWidget.draw_hypnogram(ui)
     for container in ui.AnnotationContainer:
         draw_event_in_this_epoch(ui, container)
+
+    # Enable the menus once the data is loaded
+    ui.menu_stages.setEnabled(True)
+    ui.menu_labels.setEnabled(True)
+    ui.menu_utils.setEnabled(True)
+    ui.menu_config.setEnabled(True) 
+
+    # Enable toolbar once the data is loaded
+    ui.toolbar_jump_to_epoch.setEnabled(True)
+    ui.tool_nextunscored.setEnabled(True)
+    ui.tool_nextuncertain.setEnabled(True)
+    ui.tool_nexttransition.setEnabled(True)
+    ui.tool_nextevent.setEnabled(True)    
+
+    # Enable sliders
+    ui.HypnogramSlider.enable_slider()
+    ui.SpectogramSlider.enable_slider()
+
+    
