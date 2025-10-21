@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 import pyarrow.parquet as pq
 import json
 
@@ -11,11 +10,12 @@ def load_tosoo3(filename: str):
     srate = metadata['eeg_sampling_frequency_hz']
     
     df = table.to_pandas()
-    eeg_df = df[df['is_eeg_sample']]
+    if 'is_eeg_sample' in df:
+        df = df[df['is_eeg_sample']]
 
-    eeg_columns = [col for col in eeg_df.columns if col.startswith('eeg_')]
-    eeg_df = eeg_df[eeg_columns]
-    eeg_data = eeg_df.values.transpose()
+    eeg_columns = [col for col in df.columns if col.startswith('eeg_')]
+    df = df[eeg_columns]
+    eeg_data = df.values.transpose()
 
     channel_names = [np.str_(col.replace('eeg_', '')) for col in eeg_columns]
 

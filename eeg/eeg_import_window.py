@@ -13,7 +13,7 @@ def eeg_import_window(ui, MainWindow, datatype):
     if datatype == "edfvolt":
         datatype_to_show = "*.edf"
     if datatype == "tosoo3":
-        datatype_to_show = "*.tosoo3.parquet"
+        datatype_to_show = "*.parquet"
 
     name_of_eegfile, _ = QFileDialog.getOpenFileName(
         None, "Open File", ui.default_data_path, datatype_to_show
@@ -27,12 +27,13 @@ def eeg_import_window(ui, MainWindow, datatype):
     if datatype == "tosoo3":
         # For tosoo3 files, store the full path for loading
         # but use base name without .tosoo3.parquet for config/scoring files
-        if name_of_eegfile.endswith('.tosoo3.parquet'):
+        if name_of_eegfile.endswith('.parquet'):
             ui.full_filename = name_of_eegfile  # Full path for loading the data file
-            ui.filename = name_of_eegfile[:-15]  # Remove '.tosoo3.parquet' for config/scoring
+            ui.filename = name_of_eegfile  # Remove '.parquet' for config/scoring
         else:
             ui.full_filename = name_of_eegfile
             ui.filename, _ = os.path.splitext(name_of_eegfile)
+
     else:
         ui.filename, suffix = os.path.splitext(name_of_eegfile)
         ui.full_filename = ui.filename  # For non-tosoo3, both are the same
