@@ -130,10 +130,10 @@ def setup_ui(ui, MainWindow):
     ui.action_load_edf_volt.setObjectName("action_load_edf_volt")
     ui.action_load_edf_volt.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="edfvolt"))
     ui.submenu_load_eeg.addAction(ui.action_load_edf_volt)
-    ui.action_load_tosoo3 = QAction("Load tosoo3 file (.parquet)", ui)
-    ui.action_load_tosoo3.setObjectName("action_load_tosoo3")
-    ui.action_load_tosoo3.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="tosoo3"))
-    ui.submenu_load_eeg.addAction(ui.action_load_tosoo3)
+    ui.action_load_tosoo = QAction("Load tosoo file (.tosooX.parquet)", ui)
+    ui.action_load_tosoo.setObjectName("action_load_tosoo")
+    ui.action_load_tosoo.triggered.connect(lambda: eeg_import_window(ui, MainWindow, datatype="tosoo"))
+    ui.submenu_load_eeg.addAction(ui.action_load_tosoo)
 
 
     ui.submenu_scoring = QMenu("Load Scoring", ui.menu_file)

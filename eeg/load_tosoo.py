@@ -3,7 +3,7 @@ import pyarrow.parquet as pq
 import json
 
 
-def load_tosoo3(filename: str):
+def load_tosoo(filename: str):
     table = pq.read_table(filename)
 
     metadata = json.loads(table.schema.metadata[b"metadata"])
