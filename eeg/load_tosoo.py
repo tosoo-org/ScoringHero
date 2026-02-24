@@ -5,6 +5,10 @@ import re
 
 
 def extract_tosoo_version(filename: str) -> int:
+    if filename.endswith('.preprocessedEEGAxora.parquet'):
+        return 5
+    if filename.endswith('.preprocessedEEG.parquet'):
+        return 3
     match = re.search(r'\.tosoo(\d+)[a-z]?\.parquet$', filename)
     if not match:
         raise ValueError(f"Could not extract tosoo version from filename: {filename}")
