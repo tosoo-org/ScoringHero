@@ -160,6 +160,10 @@ def setup_ui(ui, MainWindow):
     ui.action_load_sleepyland.setObjectName("action_load_sleepyland")
     ui.action_load_sleepyland.triggered.connect(lambda: scoring_import_window(ui, filetype="sleepyland"))
     ui.submenu_scoring.addAction(ui.action_load_sleepyland)
+    ui.action_load_tosoo_scoring = QAction("Load Tosoo Scoring (.sleep_analysis.json)", ui)
+    ui.action_load_tosoo_scoring.setObjectName("action_load_tosoo_scoring")
+    ui.action_load_tosoo_scoring.triggered.connect(lambda: scoring_import_window(ui, filetype="tosoo"))
+    ui.submenu_scoring.addAction(ui.action_load_tosoo_scoring)
 
 
     ui.action_save_scoring = QAction("Save to", MainWindow)

@@ -16,6 +16,8 @@ def scoring_import_window(ui, filetype):
         datatype = "*.csv"
     if filetype == "sleepyland":
         datatype = "*.annot"
+    if filetype == "tosoo":
+        datatype = "*.sleep_analysis.json"
 
     name_of_scoringfile, _ = QFileDialog.getOpenFileName(
         None, "Open Scoring File", ui.default_data_path, datatype
