@@ -19,11 +19,12 @@ def load_tosoo(filename: str):
     if version == 3:
         metadata = json.loads(table.schema.metadata[b"metadata"])
         srate = metadata['eeg_sampling_frequency_hz']
-    if version == 6:
-        print(table.schema.metadata.keys())
-        metadata = json.loads(table.schema.metadata)
-        print(metadata.keys())
-        srate = 250
+    elif version == 5:
+        stream_header = json.loads(table.schema.metadata[b"stream_header"])
+        srate = stream_header['eeg_metadata']['sampling_frequency_hz']
+    elif version == 6:
+        stream_header = json.loads(table.schema.metadata[b"stream_header"])
+        srate = stream_header['eeg_metadata']['sampling_frequency_hz']
     else:
         raise ValueError(f"Unknown tosoo version: {version}")
 
