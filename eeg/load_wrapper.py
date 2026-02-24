@@ -33,6 +33,10 @@ def load_wrapper(ui, datatype):
         numchans = 6
 
     ui.config = load_configuration(f"{ui.filename}.config.json", numchans, srate, channel_names)
+
+    if datatype == "tosoo" and numchans == 1:
+        ui.config[1][0]["Scaling_factor"] = 15
+
     ui.numepo = number_of_epochs(
         ui.eeg_data.shape[1],
         ui.config[0]["Sampling_rate_hz"],
