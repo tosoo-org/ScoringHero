@@ -24,8 +24,8 @@ def load_wrapper(ui, datatype):
         ui.eeg_data, srate, channel_names = load_edf(ui.filename)
     if datatype == "edfvolt":
         ui.eeg_data, srate, channel_names = load_edf_volt(ui.filename)
-    if datatype == "tosoo3":
-        ui.eeg_data, srate, channel_names = load_tosoo(ui.filename)    
+    if datatype == "tosoo":
+        ui.eeg_data, srate, channel_names = load_tosoo(ui.filename)
 
     try:
         numchans = ui.eeg_data.shape[0]

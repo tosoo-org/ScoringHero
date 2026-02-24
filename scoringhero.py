@@ -94,7 +94,7 @@ class Ui_MainWindow(QMainWindow):
             prev_epoch(self)
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description='Scoring Hero - EEG Sleep Scoring Application')
     parser.add_argument('--file', '-f', type=str, help='Path to EEG file to load')
     parser.add_argument('--type', '-t', type=str, default='eeglab', help='File type format (default: eeglab)')
@@ -123,3 +123,7 @@ if __name__ == "__main__":
     MainWindow.activateWindow()
     MainWindow.show()
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()

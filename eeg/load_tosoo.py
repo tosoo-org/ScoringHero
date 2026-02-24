@@ -1,14 +1,32 @@
 import numpy as np
 import pyarrow.parquet as pq
 import json
+import re
+
+
+def extract_tosoo_version(filename: str) -> int:
+    match = re.search(r'\.tosoo(\d+)[a-z]?\.parquet$', filename)
+    if not match:
+        raise ValueError(f"Could not extract tosoo version from filename: {filename}")
+    return int(match.group(1))
 
 
 def load_tosoo(filename: str):
+    version = extract_tosoo_version(filename)
+
     table = pq.read_table(filename)
 
-    metadata = json.loads(table.schema.metadata[b"metadata"])
-    srate = metadata['eeg_sampling_frequency_hz']
-    
+    if version == 3:
+        metadata = json.loads(table.schema.metadata[b"metadata"])
+        srate = metadata['eeg_sampling_frequency_hz']
+    if version == 6:
+        print(table.schema.metadata.keys())
+        metadata = json.loads(table.schema.metadata)
+        print(metadata.keys())
+        srate = 250
+    else:
+        raise ValueError(f"Unknown tosoo version: {version}")
+
     df = table.to_pandas()
     if 'is_eeg_sample' in df:
         df = df[df['is_eeg_sample']]
@@ -19,11 +37,4 @@ def load_tosoo(filename: str):
 
     channel_names = [np.str_(col.replace('eeg_', '')) for col in eeg_columns]
 
-    print(f"Channel names before return: {channel_names}")
-    print(f"Channel names first element type: {type(channel_names[0])}")
-    print(f"EEG data shape: {eeg_data.shape}")
-    print(f"EEG data type: {type(eeg_data)}")
-    print(f"Channel names shape: {np.array(channel_names).shape}")
-    print(f"Channel names type: {type(channel_names)}")
     return eeg_data, int(srate), channel_names
-    # return eeg_data.astype(np.float32), srate, channel_names
