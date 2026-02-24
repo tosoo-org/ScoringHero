@@ -27,7 +27,10 @@ def scoring_import_window(ui, filetype):
     if not name_of_scoringfile:
         return  # Exit the function if no file is selected
 
-    ui.filename, suffix = os.path.splitext(name_of_scoringfile)
+    if name_of_scoringfile.endswith('.scoring.json'):
+        ui.filename = name_of_scoringfile[:-len('.scoring.json')]
+    else:
+        ui.filename, suffix = os.path.splitext(name_of_scoringfile)
     ui.default_data_path = os.path.dirname(name_of_scoringfile)
     ui.stages, events = load_scoring(
         name_of_scoringfile, ui.config[0]["Epoch_length_s"], ui.numepo, filetype

@@ -1,3 +1,4 @@
+import os
 from config.load_configuration import load_configuration
 from scoring.load_scoring import load_scoring
 from scoring.events_to_ui import events_to_ui
@@ -42,8 +43,9 @@ def load_wrapper(ui, datatype):
         ui.config[0]["Sampling_rate_hz"],
         ui.config[0]["Epoch_length_s"],
     )
+    base, _ = os.path.splitext(ui.filename)
     ui.stages, events = load_scoring(
-        f"{ui.filename}.json", ui.config[0]["Epoch_length_s"], ui.numepo, "scoringhero"
+        f"{base}.scoring.json", ui.config[0]["Epoch_length_s"], ui.numepo, "scoringhero"
     )
 
     events_to_ui(ui, events)
