@@ -1,4 +1,5 @@
 import os, json
+from PySide6.QtWidgets import QMessageBox
 from .default_scoring import default_scoring
 
 
@@ -21,7 +22,15 @@ def load_tosoo_scoring(scoring_filename, epolen, numepo):
         with open(scoring_filename, "r") as file:
             data = json.load(file)
 
-        hypnogram = data['hypnogram']
+        file_epolen = data.get('epoch_length_seconds')
+        if file_epolen is not None and file_epolen != epolen:
+            QMessageBox.warning(
+                None, 'Epoch length mismatch',
+                f'Scoring file epoch length ({file_epolen}s) does not match '
+                f'the current epoch length ({epolen}s). Loading anyway.'
+            )
+
+        hypnogram = data['sleep_scoring']
 
         for counter, stage in enumerate(hypnogram[:numepo]):
             stage_str = mapping_str.get(stage, stage)
