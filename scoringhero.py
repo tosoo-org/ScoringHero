@@ -108,12 +108,21 @@ def main():
     setup_ui(ui, MainWindow)
 
     if args.file:
-        ui.filename = args.file
+        from eeg.load_tosoo import strip_tosoo_suffix
+        ui.full_filename = args.file
+        if args.type == "tosoo":
+            ui.filename = strip_tosoo_suffix(args.file)
+            ui.scoring_suffix = ".json"
+        else:
+            ui.filename, _ = os.path.splitext(args.file)
+            ui.scoring_suffix = ".scoring.json"
         MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(args.file)})")
         load_wrapper(ui, args.type)
     elif ui.devmode == 1:
         name_of_eegfile = os.path.join(ui.default_data_path, "example_data.mat")
-        ui.filename, suffix = os.path.splitext(name_of_eegfile)
+        ui.full_filename = name_of_eegfile
+        ui.filename, _ = os.path.splitext(name_of_eegfile)
+        ui.scoring_suffix = ".scoring.json"
         MainWindow.setWindowTitle(f"Scoring Hero v.{ui.version[0]}.{ui.version[1]}.{ui.version[2]} ({os.path.basename(name_of_eegfile)})")
         load_wrapper(ui, 'eeglab')
 

@@ -4,6 +4,11 @@ import json
 import re
 
 
+TOSOO_SUFFIX_PATTERN = re.compile(
+    r'\.(?:tosoo\d+[a-z]?|preprocessedEEGAxora|preprocessedEEG)\.parquet$'
+)
+
+
 def extract_tosoo_version(filename: str) -> int:
     if filename.endswith('.preprocessedEEGAxora.parquet'):
         return 5
@@ -13,6 +18,10 @@ def extract_tosoo_version(filename: str) -> int:
     if not match:
         raise ValueError(f"Could not extract tosoo version from filename: {filename}")
     return int(match.group(1))
+
+
+def strip_tosoo_suffix(filename: str) -> str:
+    return TOSOO_SUFFIX_PATTERN.sub('', filename)
 
 
 def load_tosoo(filename: str):

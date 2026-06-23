@@ -26,7 +26,7 @@ def load_wrapper(ui, datatype):
     if datatype == "edfvolt":
         ui.eeg_data, srate, channel_names = load_edf_volt(ui.filename)
     if datatype == "tosoo":
-        ui.eeg_data, srate, channel_names = load_tosoo(ui.filename)
+        ui.eeg_data, srate, channel_names = load_tosoo(ui.full_filename)
 
     try:
         numchans = ui.eeg_data.shape[0]
@@ -43,9 +43,8 @@ def load_wrapper(ui, datatype):
         ui.config[0]["Sampling_rate_hz"],
         ui.config[0]["Epoch_length_s"],
     )
-    base, _ = os.path.splitext(ui.filename)
     ui.stages, events = load_scoring(
-        f"{base}.scoring.json", ui.config[0]["Epoch_length_s"], ui.numepo, "scoringhero"
+        f"{ui.filename}{ui.scoring_suffix}", ui.config[0]["Epoch_length_s"], ui.numepo, "scoringhero"
     )
 
     events_to_ui(ui, events)
